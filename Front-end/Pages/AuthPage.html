@@ -1,0 +1,156 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../../Static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <link rel="icon" href="./../../Static/images/اساسيات/logoooo.png" type="image/x-icon">
+    <title>Broast & burger</title> 
+    <style>
+    .footer__bar {
+        text-align: center;
+        width: 100%;
+        background-color: var(--greyColor);
+        position: fixed; /* يجعل الفوتر ثابتًا في أسفل الشاشة */
+        bottom: 0; /* يضع الفوتر في أسفل الشاشة */
+        width: 100%; /* يجعل الفوتر يمتد على كامل عرض الشاشة */
+    }
+    </style>
+</head>
+
+<body>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--sidebar-->
+<div id="sidebar" about="./about.html" feedback="./feedback.html" Profile="./Profile.html"></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--loading-->
+<div class="loading-overlay" id="loadingScreen">
+<img src="./../../Static/images/اساسيات/logoooo.png" class="loader-img" alt="Loading..."></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--main--><div class="main">
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--navbar-->
+<div id="navbar" data-Location="./../../index.html" data-imgN="../../Static/images/اساسيات/logoooo.png" ></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--Codes-->
+
+    <Code>
+        <br><h2 class="section__header" style="background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; padding-top: 15px;  padding-bottom: 15px;">مرحباً بك </h2><br>
+        <form id="loginForm">
+            <h4  style="text-align: center; background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; color: white; padding-top: 15px;  padding-bottom: 15px;">برجاء تسجيل الدخول اولا لتتمكن من التعديل  </h4><br>
+            <input type="text" id="username" name="username" placeholder="أدخل أسم المستخدم">
+            <br>
+            <input type="text" id="password" name="password" placeholder="أدخل كلمة المرور">
+            <br>
+            <button type="submit"  class="WhatsApp" >تسجيل الدخول</button>
+        </form>
+    </Code>
+
+
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--footer--> 
+<br><div id="footer"></div></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--scripts--> 
+<script>
+    //**********************************************************************************************//
+    //**********************************************************************************************//
+    //**  git data  **//
+        const googleSheetUrl = 'https://docs.google.com/spreadsheets/d/1ylBskDRWru5kKrFsQjuRjojBIzVluTkEFVViyXSVomA/gviz/tq?tqx=out:json';
+        const targetObject = {};
+    
+        fetch(googleSheetUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // الحصول على البيانات كنص
+            })
+            .then(data => {
+                // تحويل النص إلى JSON
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2)); // إزالة بعض البيانات الزائدة
+                const rows = jsonData.table.rows;
+    
+                // إنشاء كائن لتخزين البيانات
+                const result = {};
+    
+                // ربط البيانات من الصفوف
+                rows.forEach(row => {
+                    const key = row.c[0] ? row.c[0].v : null; // أول خلية في العمود الأول
+                    const value = row.c[1] ? row.c[1].v : null; // أول خلية في العمود الثاني
+                    if (key && value) {
+                        result[key] = value; // ربط المفتاح بالقيمة
+                    }
+                });
+    
+    
+                for (const key in result) {
+                    if (result.hasOwnProperty(key)) {
+                        targetObject[key] = result[key];
+                    }
+                }
+
+                const loginForm = document.getElementById('loginForm');
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+
+                loginForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const username = usernameInput.value;
+                    const password = passwordInput.value;
+
+                    // التحقق من صحة بيانات الدخول
+                    if (targetObject[username] && targetObject[username].toString() === password) {
+                        // تخزين بيانات الدخول في Local Storage
+                        localStorage.setItem('username', username);
+                        localStorage.setItem('password', password);
+
+                        // تحويل المستخدم إلى صفحة الملف الشخصي
+                        window.location.href = 'Profile.html';
+                        swal("تم التسجيل", "تم تسجيل الدخول بنجاح.", "success");
+                } else {
+                    swal("خطأ في تسجيل الدخول", 'اسم المستخدم أو كلمة المرور غير صحيحة', "error");
+                    }
+                });
+
+
+            })
+            .catch(error => {
+                console.error('Error fetching data from Google Sheets:', error);
+            });
+    //**********************************************************************************************//
+    //**********************************************************************************************//
+    //**  loadingScreen  **//
+
+        // إخفاء شاشة التحميل بعد تحميل الصفحة
+        window.addEventListener('load', function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        });
+        // (إختياري) إخفاء الشاشة بعد وقت معين كإحتياط
+        setTimeout(function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }, 5000); // 5 ثواني كحد أقصى
+
+</script>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--liberary-->
+<script src="./../Components.js" defer></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="./../../Back-end/JavaScript.js"></script>
+<script src="./../../Back-end/script.js"></script>
+<script src="./../../Back-end/app.js"></script>   
+</body>
+
+</html>

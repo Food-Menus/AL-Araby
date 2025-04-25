@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../../Static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="./../../Static/images/اساسيات/logoooo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <title>Broast & burger</title> 
+    <style>
+    .footer__bar {
+        text-align: center;
+        width: 100%;
+        background-color: var(--greyColor);
+        position: fixed; /* يجعل الفوتر ثابتًا في أسفل الشاشة */
+        bottom: 0; /* يضع الفوتر في أسفل الشاشة */
+        width: 100%; /* يجعل الفوتر يمتد على كامل عرض الشاشة */
+    }
+    </style>
+    </head>
+
+<body>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--sidebar-->
+<div id="sidebar" about="./about.html" feedback="./feedback.html" Profile="./Profile.html"></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--loading-->
+<div class="loading-overlay" id="loadingScreen">
+<img src="./../../Static/images/اساسيات/logoooo.png" class="loader-img" alt="Loading..."></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--main--><div class="main">
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--navbar-->
+<div id="navbar" data-Location="./../../index.html" data-imgN="../../Static/images/اساسيات/logoooo.png" ></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--Codes-->
+
+
+    <Code>
+        <br><br>
+        <h1 class="title-ordero" style="text-align: center; background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; color: white; padding-top: 15px;  padding-bottom: 15px; margin: 15px;"> أدخل رأيك </h1>
+
+        <form id="submit-to-google-sheet">
+            <div class="form-group">
+                <input
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="ادخل اسمك"
+                    required
+                />
+            </div>
+        
+            <div class="form-group">
+                <input
+                    class="form-control"
+                    type="text"
+                    name="feedback"
+                    id="feedback"
+                    placeholder="ادخل رأيك في الخدمة"
+                    required
+                />
+            </div>
+        
+            <div class="form-group">
+                <input
+                    class="form-control"
+                    type="tel"
+                    name="number"
+                    id="number"
+                    placeholder="ادخل رقم هاتفك"
+                    required
+                    pattern="[0-9]{10,15}"
+                    title="يجب أن يحتوي على أرقام فقط (10-15 رقم)"
+                />
+            </div>
+        
+            <div class="form-group">
+                <select class="form-control" name="condition" id="condition" required>
+                    <option value="" disabled selected>اختر تقييمك للخدمة</option>
+                    <option value="سعيد بالخدمة">سعيد بالخدمة</option>
+                    <option value="راضي عن الخدمة">راضي عن الخدمة</option>
+                    <option value="خدمة مقبولة">خدمة مقبولة</option>
+                    <option value="خدمة غير جيدة">خدمة غير جيدة</option>
+                    <option value="خدمة سيئة">خدمة سيئة</option>
+                </select>
+            </div>
+        
+            <button type="submit" class="submit-btn" id="submit-btn">
+                <h2 id="btn-text">إرسال</h2>
+                <div id="loading-spinner" style="display: none;">
+                    <span style="margin-left: 5px;">جاري الإرسال...</span>
+                    <!-- يمكنك إضافة أيقونة تحميل هنا -->
+                </div>
+            </button>
+        </form>
+
+    </Code>
+   
+
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--footer--> 
+<br><div id="footer"></div></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--scripts--> 
+<script>
+
+    //**********************************************************************************************//
+    //**********************************************************************************************//
+    //**  post data  **//
+    const form = document.getElementById('submit-to-google-sheet');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const loadingSpinner = document.getElementById('loading-spinner');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // تعطيل الزر وإظهار رسالة التحميل
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        loadingSpinner.style.display = 'block';
+        
+        // هنا تضع كود الإرسال إلى جوجل شيت
+        // مثال:
+        const formData = new FormData(form);
+        
+        fetch('https://script.google.com/macros/s/AKfycbxGZF4BmuxSGIJcMmmpPL3eHTfVQQY-il5cCcn5E9TN6F20BC90EUPk9taklyNg9cHr/exec', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if(response.ok) {
+                // إعادة تعيين النموذج بعد الإرسال
+                form.reset();
+                swal("Done", "تم ارسال الفيد باك بنجاح", "تم الارسال ");
+            } else {
+                throw new Error('فشل في الإرسال');
+            }
+        })
+        .catch(error => {
+            swal("Error", "حدث خطأ يرجى المحاولة مرة اخرى", "حدث خطأ");
+        })
+        .finally(() => {
+            // إعادة تمكين الزر وإخفاء رسالة التحميل
+            submitBtn.disabled = false;
+            btnText.style.display = 'block';
+            loadingSpinner.style.display = 'none';
+        });
+    });
+
+    //**********************************************************************************************//
+    //**********************************************************************************************//
+    //**  loadingScreen  **//
+
+        // إخفاء شاشة التحميل بعد تحميل الصفحة
+        window.addEventListener('load', function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        });
+
+        // (إختياري) إخفاء الشاشة بعد وقت معين كإحتياط
+        setTimeout(function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }, 5000); // 5 ثواني كحد أقصى
+
+</script>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--liberary-->
+<script src="./../Components.js" defer></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="./../../Back-end/JavaScript.js"></script>
+<script src="./../../Back-end/script.js"></script>
+<script src="./../../Back-end/app.js"></script>     
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../../Static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <link rel="icon" href="./../../Static/images/اساسيات/logoooo.png" type="image/x-icon">
+    <title>Broast & burger</title> 
+    <style>
+    .footer__bar {
+        text-align: center;
+        width: 100%;
+        background-color: var(--greyColor);
+        position: fixed; /* يجعل الفوتر ثابتًا في أسفل الشاشة */
+        bottom: 0; /* يضع الفوتر في أسفل الشاشة */
+        width: 100%; /* يجعل الفوتر يمتد على كامل عرض الشاشة */
+    }
+    </style>
+</head>
+
+<body>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--sidebar-->
+<div id="sidebar" about="./about.html" feedback="./feedback.html" Profile="./Profile.html"></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--loading-->
+<div class="loading-overlay" id="loadingScreen">
+<img src="./../../Static/images/اساسيات/logoooo.png" class="loader-img" alt="Loading..."></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--main--><div class="main">
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--navbar-->
+<div id="navbar" data-Location="./Profile.html" data-imgN="./../../Static/images/اساسيات/logoooo.png" ></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--Codes-->
+
+
+<Code>
+
+        <br><h2 class="section__header" style="text-align: center; background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; color: white; padding-top: 15px;  padding-bottom: 15px; margin-top: 10px;">جدول القوائم  </h2>
+        <h3 style="text-align: center; background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; color: white; padding-top: 15px;  padding-bottom: 15px; margin-top: 10px;" > للذهاب بشكل مباشر لجدول البيانات  </h3><hr>
+
+        <button id="Table1"  style=" background-color: #FF7F50; color: #fff; cursor: pointer"> قائمة سندوتشات الميكس </button><hr>
+        <button id="Table2"  style=" background-color: #00BFFF; color: #fff; cursor: pointer"> قائمة الوجبات الميكس  </button><hr>
+
+        <button id="Table3"  style=" background-color: #FF7F50; color: #fff; cursor: pointer"> قائمة وجبات الاستريبس  </button><hr>
+        <button id="Table4"  style=" background-color: #00BFFF; color: #fff; cursor: pointer"> قائمة وجبات البروست  </button><hr>
+
+        <button id="Table5"  style=" background-color: #FF7F50; color: #fff; cursor: pointer"> قائمة وجبات الاطفال </button><hr>
+        <button id="Table6"  style=" background-color: #00BFFF; color: #fff; cursor: pointer"> قائمة سندوتشات الدجاج  </button><hr>
+        <button id="Table7"  style=" background-color: #FF7F50; color: #fff; cursor: pointer"> قائمة سندوتشات البيف </button><hr>
+        <button id="Table9"  style=" background-color: #00BFFF; color: #fff; cursor: pointer"> قائمة الاضافات </button><hr>
+        
+        <br>  
+</Code>
+
+    
+</div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--footer--> 
+<div id="footer"></div> 
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--scripts--> 
+<script>
+    //**********************************************************************************************//
+    //**********************************************************************************************//
+    //**  links table  **//
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                window.location.href = './AuthPage.html';
+            } else {
+                document.getElementById('username').textContent = username;
+            }
+        });
+        const Table1 = document.getElementById('Table1');
+        Table1.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1_pmTb5zV47zqaXDtNPFMWTM_CYMb4s7hDkDq07d48y0/edit?usp=drive_link';  }); // وجبات
+        const Table2 = document.getElementById('Table2');
+        Table2.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1QuHUFxzgl5FOXcEOOcWVVDGASpeTZbadAoOkbr9Ihn4/edit?usp=drive_link';  }); // صواني
+        const Table3 = document.getElementById('Table3');
+        Table3.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1vy-kvQeUe5lU3xqa7BZQqMvRGwgJkRFSiXc3DqrQJ5g/edit?usp=drive_link';  }); // طواجن
+        const Table4 = document.getElementById('Table4');
+        Table4.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1WIsL981lp5OZTv12gY6-s5fpNWxGlH4qPaxwfnyorS4/edit?usp=drive_link';  }); // مقبلات
+        
+        const Table5 = document.getElementById('Table5');
+        Table5.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1P4oV4NhTgH6IOzQrQ17kZ29RItNCx6r1dkGfAou9RHo/edit?usp=drive_link';  });    // وافل
+        const Table6 = document.getElementById('Table6');
+        Table6.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1uue-DPnhT-s9aRbJcbzClq_pkRm7cCK0IOZlNcWtHOM/edit?usp=drive_link';  });    //  ميلك تشيك
+        const Table7 = document.getElementById('Table7');
+        Table7.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1ytXw1G1dytZFtsRBTGbtOrT21cHmgdO4gYjGnjlU8dE/edit?usp=drive_link';  });    // موكتيلز 
+        const Table9 = document.getElementById('Table9');
+        Table9.addEventListener('click', () => {  window.location.href = 'https://docs.google.com/spreadsheets/d/1WUq1TbC452KT5ZHZv-AHtF5tBUPR6DOpG78yyNigjnU/edit?usp=drive_link';  });    //  ساخنه
+        
+
+    //**********************************************************************************************//
+    //**********************************************************************************************//
+    //**  loadingScreen  **//
+
+        // إخفاء شاشة التحميل بعد تحميل الصفحة
+        window.addEventListener('load', function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        });
+
+        // (إختياري) إخفاء الشاشة بعد وقت معين كإحتياط
+        setTimeout(function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }, 5000); // 5 ثواني كحد أقصى
+
+</script>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--liberary-->
+<script src="./../Components.js" defer></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="./../../Back-end/JavaScript.js"></script>
+<script src="./../../Back-end/script.js"></script>
+<script src="./../../Back-end/app.js"></script>    
+
+</body>
+
+</html>
