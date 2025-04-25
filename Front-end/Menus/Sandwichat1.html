@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./../../Static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link rel="icon" href="./../../Static/images/اساسيات/logoooo.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+  <title>ُEl-Araby</title>
+  <style>
+    .footer__bar {
+        text-align: center;
+        width: 100%;
+        background-color: var(--greyColor);
+        position: fixed; /* يجعل الفوتر ثابتًا في أسفل الشاشة */
+        bottom: 0; /* يضع الفوتر في أسفل الشاشة */
+        width: 100%; /* يجعل الفوتر يمتد على كامل عرض الشاشة */
+    }
+    </style>
+
+</head>
+
+<body>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--sidebar-->
+<div id="sidebar" about="./../Pages/about.html" feedback="./../Pages/feedback.html" Profile="./../Pages/Profile.html"></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--loading-->
+<div class="loading-overlay" id="loadingScreen">
+<img src="./../../Static/images/اساسيات/logoooo.png" class="loader-img" alt="Loading..."></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--main--><div class="main">
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--navbar-->
+<div id="navbar" data-Location="./../../index.html" data-imgN="../../Static/images/اساسيات/logoooo.png" ></div>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--Codes-->
+
+
+  <Code>
+    <section class="section__container order__container" id="menu">
+      <h2 class="section__header" style="text-align: center; background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; color: white; padding-top: 15px;  padding-bottom:15px;"> قائمة الاضافات </h2><br>
+      <p class="section__description" style="text-align: center; background-color: rgba(0, 0, 0, 0.716); border-radius: 15px; color: white; padding: 15px;  padding-bottom:15px;"> اختر ما تحب </p>      
+    </section>
+    <div id="drinks-list" ></div>
+  </Code>
+
+
+</div>
+<a href="./../Pages/order.html"><div class="counter"><span id="item-count">عدد العناصر المحددة: 0</span><ion-icon name="cart-outline" class="icon-1"></ion-icon></div></a>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--footer--> 
+<div id="footer"></div> 
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--scripts--> 
+<script>
+  //**********************************************************************************************//
+  //**********************************************************************************************//
+  //**  git data & add cart  **// 
+
+  const sheetID = '1Qa37G429gygjDx16SWipnS1DGT45D-Mf6p_8fPtdszQ'; // معرف جدول جوجل
+  const base = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+
+  async function fetchDrinks() {
+    const response = await fetch(base);
+    const data = await response.text();
+    const json = JSON.parse(data.substring(47).slice(0, -2));
+    const drinksList = document.getElementById('drinks-list');
+    drinksList.innerHTML = '';
+
+    json.table.rows.forEach(row => {
+    const Food_Type = row.c[0]?.v || 'غير متوفر';
+    const Food_Price_Single = row.c[1]?.v || 'غير متوفر'; // سعر الدابل
+    const Food_Details = row.c[2]?.v || '';
+    const Food_Image = row.c[3]?.v || '';
+
+    drinksList.innerHTML += `
+
+
+    <div class="dish-card-horizontal">
+        <div class="image-container">
+        <img src="${Food_Image}" alt="${Food_Type}" class="dish-image"  onerror="this.src='../../Static/images/اساسيات/logoooo.png'; this.onerror=null;">    
+        </div>
+        <div class="card-content">
+            <div class="text-content">
+                <h3 class="dish-name">${Food_Type}</h3>
+                <div class="dish-details">
+                    ${Food_Details}
+                </div>
+            </div>
+            <div class="price-buttons">
+                <button class="price-btn single" onclick="addToCart('${Food_Type} - سينجل', '${Food_Price_Single}')">
+                    <span class="price-label">وجبة فردية</span>
+                    <span class="price-value">${Food_Price_Single} ج.م</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    
+    `;
+});
+  }
+
+  function addToCart(Food_Type, Food_Price) {
+    // الحصول على العناصر الموجودة في الكارت
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
+    // إضافة المشروب إلى الكارت
+    cartItems.push({ type: Food_Type, price: Food_Price });
+    
+    // تخزين الكارت في localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    // تحديث عدد العناصر في الكارت
+    document.getElementById('item-count').innerText = `عدد العناصر المحددة: ${cartItems.length}`;
+  }
+
+  fetchDrinks(); // استدعاء الدالة لتحميل البيانات
+
+  const menuItems = document.querySelectorAll(".menu-item");
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const counter = document.querySelector(".counter span");
+  const counterElement = document.querySelector(".counter");
+  const clearCartButton = document.getElementById("clearCart");
+
+  function updateCounter() {
+    counter.textContent = `عدد العناصر المحددة : ${cartItems.length}`;
+    counterElement.style.display = cartItems.length > 0 ? "block" : "none";
+  }
+
+  function addToCart(itemName, itemprice) {
+    cartItems.push({ name: itemName, price: itemprice });
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    updateCounter();
+    swal(`${itemName} تمت إضافته إلى السلة`);
+  }
+
+  menuItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const itemName = item.querySelector("h4").textContent;
+      const itemprice = item.querySelector("p").textContent;
+      addToCart(itemName, itemprice);
+    });
+  });
+  
+  updateCounter();
+
+  function updateDataAttributes() {
+    menuItems.forEach((item) => {
+      const h4Elements = item.querySelectorAll("h4");
+      item.dataset.name = h4Elements[0].textContent;
+      item.dataset.price = h4Elements[1].textContent;
+    });
+  }
+
+  updateDataAttributes();
+
+  //**********************************************************************************************//
+  //**********************************************************************************************//
+  //**  loadingScreen  **//
+
+    // إخفاء شاشة التحميل بعد تحميل الصفحة
+    window.addEventListener('load', function() {
+        document.getElementById('loadingScreen').style.display = 'none';
+    });
+
+    // (إختياري) إخفاء الشاشة بعد وقت معين كإحتياط
+    setTimeout(function() {
+        document.getElementById('loadingScreen').style.display = 'none';
+    }, 5000); // 5 ثواني كحد أقصى
+
+</script>
+<!--*************************************************************************************************-->
+<!--*************************************************************************************************-->
+<!--liberary-->
+<script src="./../Components.js" defer></script><script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="./../../Back-end/JavaScript.js"></script>
+<script src="./../../Back-end/script.js"></script> 
+<script src="./../../Back-end/app.js"></script>
+</body>
+
+</html>
