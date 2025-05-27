@@ -1201,7 +1201,7 @@ white-space: nowrap;
 }
 .marquee-content {
 display: inline-block;
-animation: marquee 20s linear infinite;
+animation: marquee 100s linear infinite;
 }
 .marquee-content img {
 display: inline-block;
